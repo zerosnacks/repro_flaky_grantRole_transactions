@@ -1,12 +1,17 @@
 ## Repro
 
-Run multiple times:
+Prepare account:
 
 ```sh
 foundryup -n tempo
 export TEMPO_RPC_URL=https://rpc.testnet.tempo.xyz
 read ADDR PK < <(cast wallet new --json | jq -r '.[0] | "\(.address) \(.private_key)"')
 cast rpc tempo_fundAddress "$ADDR" --rpc-url "$TEMPO_RPC_URL"
+```
+
+Next run multiple times until seeing flakiness:
+
+```sh
 forge script script/Mail.s.sol --private-key $PK --rpc-url $TEMPO_RPC_URL --broadcast
 ```
 
